@@ -10,10 +10,10 @@ class BcMath implements BasicMathInterface
     protected $scale;
     protected $validator;
 
-    public function __construct($scale = 6, NumberValidatorInterface $validator)
+    public function __construct($scale = 20, NumberValidatorInterface $validator = null)
     {
         $this->scale = $scale;
-        $this->validator = $validator;
+        $this->validator = $validator !== null ? $validator : new NumberValidator();
     }
 
     public function add($first, $second)
