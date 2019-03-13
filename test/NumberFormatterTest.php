@@ -3,24 +3,25 @@
 
 namespace Maba\Component\Math\Tests;
 
+use PHPUnit\Framework\TestCase;
 use Maba\Component\Math\BcMath;
 use Maba\Component\Math\Math;
 use Maba\Component\Math\NumberFormatter;
 use Maba\Component\Math\NumberFormatterInterface;
 use Maba\Component\Math\NumberValidatorInterface;
 
-class NumberFormatterTest extends \PHPUnit_Framework_TestCase
+class NumberFormatterTest extends TestCase
 {
     /**
      * @var NumberFormatterInterface
      */
     protected $numberFormatter;
 
-    public function setUp()
+    protected function setUp()
     {
         /** @var NumberValidatorInterface $validator */
-        $validator = $this->getMock('Maba\Component\Math\NumberValidatorInterface');
-        $math = new Math(new BcMath(6, $validator));
+        $validator = $this->getMockBuilder('Maba\Component\Math\NumberValidatorInterface');
+        $math = new Math(new BcMath(6, $validator->getMock()));
         $this->numberFormatter = new NumberFormatter($math, '.', '');
     }
 
@@ -95,7 +96,7 @@ class NumberFormatterTest extends \PHPUnit_Framework_TestCase
             array('1cd234cd567ab22', '1234567.221', 2, 'ab', 'cd'),
 
             array('1234567.22', '1234567.221', 2),
-            
+
             array('0', '-0'),
             array('-1', '-1'),
             array('-2', '-2.11'),
@@ -143,4 +144,4 @@ class NumberFormatterTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-} 
+}
