@@ -3,21 +3,23 @@
 
 namespace Maba\Component\Math\Tests;
 
+use PHPUnit\Framework\TestCase;
 use Maba\Component\Math\BcMath;
 use Maba\Component\Math\NumberValidatorInterface;
+use Maba\Component\Math\Exception\DivisionByZeroException;
 
-class BcMathTest extends \PHPUnit_Framework_TestCase
+class BcMathTest extends TestCase
 {
     /**
      * @var BcMath
      */
     protected $math;
 
-    public function setUp()
+    protected function setUp()
     {
         /** @var NumberValidatorInterface $validator */
-        $validator = $this->getMock('Maba\Component\Math\NumberValidatorInterface');
-        $this->math = new BcMath(6, $validator);
+        $validator = $this->getMockBuilder('Maba\Component\Math\NumberValidatorInterface');
+        $this->math = new BcMath(6, $validator->getMock());
     }
 
     /**
@@ -54,6 +56,14 @@ class BcMathTest extends \PHPUnit_Framework_TestCase
     public function testDiv($result, $first, $second)
     {
         $this->assertSameNumber($result, $this->math->div($first, $second));
+    }
+
+    public function testDivOnDivisionByZero()
+    {
+        $this->expectException(DivisionByZeroException::class);
+        $this->expectExceptionMessage('Division by zero (0 / 0)');
+
+        $this->math->div(0, 0);
     }
 
     /**
@@ -175,4 +185,4 @@ class BcMathTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($expected, $actual, $message);
     }
 
-} 
+}

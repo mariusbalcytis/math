@@ -3,6 +3,7 @@
 
 namespace Maba\Component\Math\Tests;
 
+use PHPUnit\Framework\TestCase;
 use Maba\Component\Math\BcMath;
 use Maba\Component\Math\Math;
 use Maba\Component\Math\MathInterface;
@@ -11,18 +12,18 @@ use Maba\Component\Math\NumberValidatorInterface;
 /**
  * Tests Math together with BcMath to test use-cases without mocking
  */
-class MathTest extends \PHPUnit_Framework_TestCase
+class MathTest extends TestCase
 {
     /**
      * @var MathInterface
      */
     protected $math;
 
-    public function setUp()
+    protected function setUp()
     {
         /** @var NumberValidatorInterface $validator */
-        $validator = $this->getMock('Maba\Component\Math\NumberValidatorInterface');
-        $this->math = new Math(new BcMath(6, $validator));
+        $validator = $this->getMockBuilder('Maba\Component\Math\NumberValidatorInterface');
+        $this->math = new Math(new BcMath(6, $validator->getMock()));
     }
 
     /**
@@ -82,6 +83,12 @@ class MathTest extends \PHPUnit_Framework_TestCase
     public function testCeil($result, $operand, $precision = 0)
     {
         $this->assertSameNumber($result, $this->math->ceil($operand, $precision));
+    }
+
+    public function testLte()
+    {
+        $this->assertTrue($this->math->isLte(10, 20));
+        $this->assertFalse($this->math->isLte(20, 10));
     }
 
     public function negateProvider()
@@ -232,4 +239,4 @@ class MathTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($expected, $actual, $message);
     }
 
-} 
+}

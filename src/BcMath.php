@@ -34,10 +34,11 @@ class BcMath implements BasicMathInterface
     {
         $this->validator->validateNumber($first);
         $this->validator->validateNumber($second);
-        $result = bcdiv($first, $second, $this->scale);
-        if ($result === null) {
+        if ($second == 0) {
             throw new DivisionByZeroException(sprintf('Division by zero (%s / %s)', $first, $second));
         }
+        $result = bcdiv($first, $second, $this->scale);
+
         return $result;
     }
 
@@ -69,4 +70,4 @@ class BcMath implements BasicMathInterface
         return bcmod($first, $second);
     }
 
-} 
+}

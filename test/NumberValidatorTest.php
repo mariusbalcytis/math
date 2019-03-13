@@ -2,17 +2,18 @@
 
 namespace Maba\Component\Math\Tests;
 
+use PHPUnit\Framework\TestCase;
 use Maba\Component\Math\NumberValidator;
 use Maba\Component\Math\NumberValidatorInterface;
 
-class NumberValidatorTest extends \PHPUnit_Framework_TestCase
+class NumberValidatorTest extends TestCase
 {
     /**
      * @var NumberValidatorInterface
      */
     protected $numberValidator;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->numberValidator = new NumberValidator();
     }
@@ -87,4 +88,4 @@ class NumberValidatorTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-} 
+}
